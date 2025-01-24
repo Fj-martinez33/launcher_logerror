@@ -30,11 +30,11 @@ model = load(open("../src/models/ensemble.sav", "rb"))
 st.set_page_config(
     page_title = "LogError Predictor", #Titulo de la pestaña
     #page_icon = favicon
-    layout="centered"
+    layout="wide"
 )
 
 #CSS
-st.markdown("""
+st.html("""
     <style>
     
         [data-testid="stAppViewContainer"] {
@@ -109,7 +109,7 @@ st.markdown("""
         
         
     </style>
-""", unsafe_allow_html=True)
+""")
 
 #Como los containers han sido un fracaso vamos a crear una especie de estructura cutre al estilo Bootstrap con columnas del mismo streamlit
 header_col = st.columns([1])
@@ -237,8 +237,8 @@ with main_col:
     st.divider()
     if log_error is not None:
         st.write(f"La predicción del Error Relativo es de: ")
-        st.markdown(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>", unsafe_allow_html=True)
+        st.html(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>")
 
 #Footer
 with footer_col[0]:
-    st.markdown("<div class=\"footer\"></div>", unsafe_allow_html=True)
+    st.html("<div class=\"footer\"></div>")
