@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 
 import streamlit as st
+import streamlit.components.v1 as components
 import folium
 from streamlit_folium import st_folium
 from datetime import date #Para calendario interactivo.
@@ -34,7 +35,7 @@ st.set_page_config(
 )
 
 #CSS
-st.markdown("""
+components.html("""
     <style>
     
         [data-testid="stAppViewContainer"] {
@@ -109,7 +110,7 @@ st.markdown("""
         
         
     </style>
-""", unsafe_allow_html=True)
+""")
 
 #Como los containers han sido un fracaso vamos a crear una especie de estructura cutre al estilo Bootstrap con columnas del mismo streamlit
 header_col = st.columns([1])
@@ -237,8 +238,8 @@ with main_col:
     st.divider()
     if log_error is not None:
         st.write(f"La predicción del Error Relativo es de: ")
-        st.markdown(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>", unsafe_allow_html=True)
+        components.html(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>")
 
 #Footer
 with footer_col[0]:
-    st.markdown("<div class=\"footer\"></div>", unsafe_allow_html=True)
+    components.html("<div class=\"footer\"></div>")
