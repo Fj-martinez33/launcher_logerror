@@ -34,7 +34,7 @@ st.set_page_config(
 )
 
 #CSS
-st.html("""
+st.markdown("""
     <style>
     
         [data-testid="stAppViewContainer"] {
@@ -109,7 +109,7 @@ st.html("""
         
         
     </style>
-""")
+""", unsafe_allow_html=True)
 
 #Como los containers han sido un fracaso vamos a crear una especie de estructura cutre al estilo Bootstrap con columnas del mismo streamlit
 header_col = st.columns([1])
@@ -237,8 +237,8 @@ with main_col:
     st.divider()
     if log_error is not None:
         st.write(f"La predicción del Error Relativo es de: ")
-        st.html(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>")
+        st.markdown(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>", unsafe_allow_html=True)
 
 #Footer
 with footer_col[0]:
-    st.html("<div class=\"footer\"></div>")
+    st.markdown("<div class=\"footer\"></div>", unsafe_allow_html=True)
