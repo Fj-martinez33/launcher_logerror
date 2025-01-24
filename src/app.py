@@ -113,7 +113,7 @@ st.markdown("""
 
 #Como los containers han sido un fracaso vamos a crear una especie de estructura cutre al estilo Bootstrap con columnas del mismo streamlit
 header_col = st.columns([1])
-sidebar_col, main_col = st.columns([1,3], gap =	"large", vertical_alignment="center") #Dividimos el espacio en 4, Sidebar será 1 columna y main serán 3.
+sidebar_col, main_col = st.columns([1,3], gap =	"large") #Dividimos el espacio en 4, Sidebar será 1 columna y main serán 3.
 footer_col = st.columns([1])
 
 #Header
