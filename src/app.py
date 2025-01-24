@@ -30,7 +30,7 @@ model = load(open("../src/models/ensemble.sav", "rb"))
 st.set_page_config(
     page_title = "LogError Predictor", #Titulo de la pestaña
     #page_icon = favicon
-    layout="wide"
+    layout="centered"
 )
 
 #CSS
