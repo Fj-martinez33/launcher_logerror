@@ -26,102 +26,12 @@ cods_zone_LA = [
 #Carga del modelo
 model = load(open("../src/models/ensemble.sav", "rb"))
 
-#CONFIG    
-st.set_page_config(
-    page_title = "LogError Predictor", #Titulo de la pestaña
-    #page_icon = favicon
-    layout="wide"
-)
-
-#CSS
-st.markdown("""
-    <style>
-    
-        [data-testid="stAppViewContainer"] {
-            background-color: #2E2E2E;
-        }
-    
-        /*Header Nativo*/
-        .st-emotion-cache-h4xjwg{
-            display: None;
-        }
-        
-        /* Elimino el padding para evitar el scrolling */
-        .block-container {
-            padding: 0 !important;
-        }
-        
-        /* Sidebar */
-        .st-emotion-cache-zlnqiy {
-            background-color: #A8A29E;
-            border-radius: 20px;
-            border-style: hidden;
-            padding: 50px;
-            margin-left: 25px;
-        }
-        
-        /*Main*/
-        .st-emotion-cache-4ih3hc {
-            background-color: #A8A29E;
-            border-radius: 20px;
-            border-style: hidden;
-            padding: 50px;
-            margin: 0px 25px 0px 0px;
-        }
-        
-        /*Footer y Header*/
-        .st-emotion-cache-132j0fg {
-            background-color: #A8A29E;
-            border-radius: 15px;
-            border-style: hidden;
-            padding: 10px;
-            text-align: center;
-            margin: 0px  25px 0px 25px;
-        }
-        
-        
-        #model-name {
-            padding-bottom: 10 px;
-        }
-        
-        /*text*/
-        .st-emotion-cache-183lzff {
-            font-size: 14px;
-        }
-        
-        .footer{
-            font-size:8px;
-            text-align: center;
-            border-radius: 10px;
-        }
-        
-        /*Botones*/
-        .st-emotion-cache-15hul6a {
-            background-color: #2C3E50;
-            color: #E0E0E0;
-        }
-        
-        /*Results*/
-        .st-emotion-cache-1sno8jx p{
-            text-align : center;
-            font-size : 21px;
-        }
-        
-        
-    </style>
-""", unsafe_allow_html=True)
-
-#Como los containers han sido un fracaso vamos a crear una especie de estructura cutre al estilo Bootstrap con columnas del mismo streamlit
-header_col = st.columns([1])
-sidebar_col, main_col = st.columns([1,3], gap =	"large") #Dividimos el espacio en 4, Sidebar será 1 columna y main serán 3.
-footer_col = st.columns([1])
-
 #Header
-with header_col[0]:
-    st.title("Log-Error Predictor")
+
+st.title("Log-Error Predictor")
     
 #Sidebar
-with sidebar_col:  #Se que se puede usar un st.sidebar pero no quiero que se pueda contraer. Me da toc.
+with st.sidebar:
     transaction_date = st.date_input("Fecha de transacción:", value=calendar, format="DD/MM/YYYY")
     transaction_month = transaction_date.month #VALOR UTILIZADO EN LA SIMULACION
     transaction_day = transaction_date.day #VALOR UTILIZADO EN LA SIMULACION
@@ -211,34 +121,25 @@ def ParsingArray(data):
 
 #Main
 #Inicializamos log_error
-log_error = None
-with main_col:
-    left_empty_Col, pred_buttom, clear_buttom, right_empty_col = st.columns([3,1,1,3])
-    
-    with left_empty_Col:
-        pass
-        
-    with pred_buttom:
-        if st.button("Predict"):
-            arrayInputs = ParsingArray(Get_inputs())
-            
-            if arrayInputs is not None:
-                predictor = model.predict(arrayInputs)
-                log_error = float((np.exp(predictor) - 1) * 100)
-        
-    
-    with clear_buttom:
-        if st.button("Clear"):
-            st.rerun()
-    
-    with right_empty_col:
-        pass
-    
-    st.divider()
-    if log_error is not None:
-        st.write(f"La predicción del Error Relativo es de: ")
-        st.markdown(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>", unsafe_allow_html=True)
 
-#Footer
-with footer_col[0]:
-    st.markdown("<div class=\"footer\"></div>", unsafe_allow_html=True)
+pred_buttom, clear_buttom = st.columns(2)
+
+log_error = None
+        
+with pred_buttom:
+    if st.button("Predict"):
+        arrayInputs = ParsingArray(Get_inputs())
+            
+        if arrayInputs is not None:
+            predictor = model.predict(arrayInputs)
+            log_error = float((np.exp(predictor) - 1) * 100)
+        
+    
+with clear_buttom:
+    if st.button("Clear"):
+        st.rerun()
+    
+st.divider()
+if log_error is not None:
+    st.write(f"La predicción del Error Relativo es de: ")
+    st.markdown(f"<span style= \"color:red; font-weight: bold;\">{log_error:.2f}%</span>", unsafe_allow_html=True)
